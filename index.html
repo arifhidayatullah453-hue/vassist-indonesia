@@ -57,16 +57,46 @@ function addDemoMessage(text,type){
  const box=document.getElementById('demoChat');const el=document.createElement('div');el.className='msg '+type;
  const label=document.createElement('b');label.textContent=type==='ai'?'VAssist AI':'Anda';el.appendChild(label);el.appendChild(document.createElement('br'));el.appendChild(document.createTextNode(text));box.appendChild(el);box.scrollTop=box.scrollHeight;
 }
-function demoReply(q){
- const x=q.toLowerCase();
- if(/harga|berapa|biaya|price/.test(x)) return 'Berikut harga CONTOH dalam demo furniture:\n• Meja makan: mulai Rp 4.000.000\n• Sofa minimalis: mulai Rp 6.200.000\n• Kitchen set: mulai Rp 15.000.000\n\nHarga sebenarnya bergantung bahan, ukuran, dan desain. Produk mana yang ingin Anda tanyakan?';
- if(/pesan|beli|order|pemesanan/.test(x)) return 'Tentu, saya bantu catat kebutuhan awal Anda.\n\nBoleh informasikan: produk yang dicari, ukuran/perkiraan ukuran, lokasi pengiriman, dan kisaran anggaran? Setelah itu admin dapat menindaklanjuti. Ini masih simulasi, jadi belum ada pesanan yang benar-benar dikirim.';
- if(/konsultasi|rumah|ruangan|interior|dapur|kitchen/.test(x)) return 'Tentu, mari kita mulai konsultasi. Ruangan atau produk apa yang Anda butuhkan, seperti meja makan, sofa, kitchen set, atau interior rumah? Jika ada, sampaikan ukuran, gaya desain, dan kisaran anggaran.';
- if(/admin|manusia|orang|hubungi|kontak/.test(x)) return 'Untuk demo ini, saya belum terhubung ke admin atau WhatsApp. Dalam versi berikutnya, VAssist dapat diarahkan untuk meneruskan percakapan kepada admin bisnis.';
- if(/halo|hai|assalam|selamat pagi|selamat siang|selamat sore/.test(x)) return 'Halo! 👋 Saya Pegawai AI demo VAssist. Saya bisa membantu pertanyaan awal tentang produk, harga contoh, dan kebutuhan pemesanan. Apa yang ingin Anda ketahui?';
- if(/terima kasih|makasih/.test(x)) return 'Sama-sama! Jika ada kebutuhan furniture atau interior, silakan ceritakan agar saya bisa membantu mengarahkan langkah berikutnya.';
- return 'Baik, saya bantu memahami kebutuhan Anda. Bisa jelaskan sedikit lebih detail produk atau layanan yang dicari, ukuran, lokasi, atau kisaran anggaran? Jika pertanyaan memerlukan data bisnis yang belum tersedia, admin perlu memastikannya.';
+
+function demoReply(q) {
+  const x = q.toLowerCase().trim();
+
+  if (/halo|hai|assalam|selamat pagi|selamat siang|selamat sore/.test(x)) {
+    return 'Halo! Saya Pegawai AI demo VAssist Indonesia. Saya bisa membantu informasi furniture, pemesanan, dan konsultasi interior. Apa yang ingin Anda ketahui?';
+  }
+
+  if (/terima kasih|makasih/.test(x)) {
+    return 'Sama-sama! Silakan beri tahu jika ada kebutuhan furniture atau interior lainnya.';
+  }
+
+  if (/harga|berapa|biaya|price/.test(x)) {
+    if (/kitchen set|dapur/.test(x)) {
+      return 'Harga contoh kitchen set mulai Rp15.000.000. Harga sebenarnya bergantung pada ukuran, material, dan desain. Berapa perkiraan ukuran dapur Anda?';
+    }
+    if (/sofa/.test(x)) {
+      return 'Harga contoh sofa minimalis mulai Rp6.200.000. Harga sebenarnya bergantung pada ukuran, bahan, dan desain.';
+    }
+    if (/meja makan/.test(x)) {
+      return 'Harga contoh meja makan mulai Rp4.000.000. Harga sebenarnya bergantung pada bahan, ukuran, dan desain.';
+    }
+    return 'Harga contoh furniture: meja makan mulai Rp4.000.000, sofa mulai Rp6.200.000, dan kitchen set mulai Rp15.000.000. Harga tersebut hanya simulasi. Produk mana yang ingin Anda tanyakan?';
+  }
+
+  if (/pesan|beli|order|pemesanan/.test(x)) {
+    return 'Saya bantu mencatat kebutuhan awal. Produk apa yang ingin dipesan, berapa ukurannya, di mana lokasi pengiriman, dan berapa kisaran anggarannya? Ini masih demo dan belum membuat pesanan nyata.';
+  }
+
+  if (/konsultasi|rumah|ruangan|interior|dapur|kitchen/.test(x)) {
+    return 'Saya siap membantu konsultasi awal. Ruangan apa yang ingin Anda desain? Beri tahu ukuran, gaya desain yang disukai, dan kisaran anggaran Anda.';
+  }
+
+  if (/admin|manusia|orang|hubungi|kontak|whatsapp/.test(x)) {
+    return 'Demo ini belum terhubung ke admin atau WhatsApp. Pada tahap berikutnya, kita dapat menyiapkan integrasi agar percakapan diteruskan kepada tim bisnis.';
+  }
+
+  return 'Saya ingin membantu dengan tepat. Apakah pertanyaan Anda tentang harga, produk furniture, pemesanan, atau konsultasi interior? Silakan jelaskan kebutuhan Anda lebih detail.';
 }
+
 function sendDemo(){const input=document.getElementById('demoInput');const q=input.value.trim();if(!q)return;addDemoMessage(q,'user');input.value='';addDemoMessage(demoReply(q),'ai');input.focus();}
 function demoQuick(q){document.getElementById('demoInput').value=q;sendDemo();}
 function clearDemo(){document.getElementById('demoChat').innerHTML='';addDemoMessage('Halo! Selamat datang di demo VAssist. Saya bisa membantu pertanyaan awal tentang furniture, pemesanan, dan konsultasi. Ada yang bisa saya bantu?','ai');}
