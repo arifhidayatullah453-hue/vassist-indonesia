@@ -65,6 +65,10 @@ function demoReply(q) {
     return 'Halo! Saya Pegawai AI demo VAssist Indonesia. Saya bisa membantu informasi furniture, pemesanan, dan konsultasi interior. Apa yang ingin Anda ketahui?';
   }
 
+if (/tugas utama seorang admin|tugas admin|pekerjaan admin|apa itu admin/.test(x)) {
+  return 'Tugas utama seorang admin adalah mengelola data dan dokumen, menjawab pertanyaan pelanggan, mencatat pesanan, mengatur jadwal, serta membantu kelancaran operasional bisnis. Tugasnya dapat berbeda sesuai jenis perusahaan.';
+}
+  
   if (/terima kasih|makasih/.test(x)) {
     return 'Sama-sama! Silakan beri tahu jika ada kebutuhan furniture atau interior lainnya.';
   }
